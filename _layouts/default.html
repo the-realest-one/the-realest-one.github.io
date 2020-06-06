@@ -1,5 +1,12 @@
 <!DOCTYPE html>
+
 <html>
+
+  <head>
+    {% if page.use_math %}
+      {% include mathjax_support.html %}
+    {% endif %}
+  </head>
 
   {% include head.html %}
 
@@ -16,5 +23,3 @@
   </body>
 
 </html>
-
-<script type="text/javascript" src="https://cdn.rawgit.com/mathjax/MathJax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
