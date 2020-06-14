@@ -11,8 +11,16 @@ use_math: true
 
 # D2L - Preliminaries
 
-Preliminaries 가 너무 길어서, 세 개의 글로 나눠서 쓸 예정이다.
-이번 글에서는, 핵심 아이디어가 되는 Linear Algebra, Calculus 를 공부해보자.
+Preliminaries 가 너무 길어서, 여러 개의 글로 나눠서 쓸 예정이다.
+이번 글에서는, 핵심 아이디어가 되는 Linear Algebra 를 공부해보자.
+
+왜 ML 하는데 Linear Algebra 를 배우는가? 를 말해보겠다. 그리고 이건, D2L 의 linear algebra 파트를 다 읽고, 그 후에 내 글의 앞부분에 쓰는 것이다.
+원래 뭐든지, 뭔가를 하는 이유가 타당하고 얻는 게 있다는 걸 느껴야 열심히 하지 않겠는가.
+
+우리는 전 챕터로, 데이터를 tabular 하게 만들었다. 그러면 이제, 몇 가지의 트릭을 더 쓰면 데이터를 행렬 혹은 벡터로 바라볼 수 있게 될 것이다.
+그러면 이제 무엇이 가능해지느냐! 우리가 원하는 것은 모델의 prediction 이 실제 target 에 가까워지는 것이다. 
+target 과 prediction 을 벡터로 보면, 둘 사이의 거리를 정의할 수 있다(by *norm*).
+그리고 거리를 줄이려는 여러 선형대수 기법들을 쓸 수 있다!!
 
 ## Linear Algebra
 
@@ -242,3 +250,47 @@ tensor([[ 6.,  6.,  6.],
 
 #### Norms
 
+드디어 norm 이다! 선형대수학에서 norm 의 정의를 먼저 살펴보자. (선형대수학 이란 걸 괜히 강조한 것이 아니다. 다른 분야에서 norm 은 다르게 정의될 수 있다.)
+
+$$\mathbf{V} is vector space on \mathbb{F} \\
+f: \mathbf{V} \to \mathbb{F}. for \mathbf{u}, \mathbf{v} \in \mathbf{V} and \mathit{k} \in \mathbb{F} \\
+1. f(\mathit{k} \mathbf{u}) = |\mathit{k}| f(\mathbf{u}). \\
+2. f(\mathbf{u} + \mathbf{v}) \leq f(\mathbf{u}) + f(\mathbf{v}). \\
+3. f(\mathbf{u}) \geq 0 and \mathbf{u} \eq 0 \iff f(\mathbf{u}) \eq 0 \\
+$$
+
+이렇듯, 기본적으로 norm 은 vector 를 받아 스칼라를 뱉는 함수다. 그리고, 정의에 따라 벡터들의 측정 혹은 비교를 가능하게 만들어준다.
+선형대수나 해석학같은 수학을 처음 접하면, norm 이라고 배운 특정 함수들만 norm 이라고 생각하기 쉽다. Euclidean norm 혹은 맨해튼 norm 등 말이다.
+하지만, 위 정의에만 맞으면 얼마든 norm 을 우리가 무수히 새롭게 정의할 수 있음을 인지해두자.
+
+흔히 쓰이는 Euclidean norm, Manhattan norm 등은 $\ell_p$ *norm* 에 속한다. $\ell_p$ norm 의 계산은 다음과 같다.
+
+$$\|\mathbf{x}\|_p = \left(\sum_{i=1}^n \left|x_i \right|^p \right)^{1/p}.$$
+
+벡터의 $\ell_2$ norms 과 비슷하게, $\mathbf{X} \in \mathbb{R}^{m \times n}$ 에게는 *Frobenius norm* 이 있다.
+정의는 다음과 같다.
+
+$$\|\mathbf{X}\|_F = \sqrt{\sum_{i=1}^m \sum_{j=1}^n x_{ij}^2}.$$
+
+뭐 그 다음부터는, 선형대수는 ML 에 많이 쓰이고, 또 선형대수 with ML 로도 방대한 학문 분야가 있다 이런 말들을 한다.
+일단 그렇구나 하고 넘어가자. 언젠가 내 블로그에는 `선형대수와 군` 공부 정리 글을 포스팅할 거니까 말이다.
+
+#### Exercise
+
+Exercise 가 재밌으니, 한 번 보자.
+
+1. $(\mathbf{A}^\top)^\top = \mathbf{A}$ 증명. elementwise 로 하나씩 보면 자명하다.
+1. $\mathbf{A}^\top + \mathbf{B}^\top = (\mathbf{A} + \mathbf{B})^\top$. 이것도 elementwise 로 직접 노트에 써보자. 자명하다.
+1. Given any square matrix $\mathbf{A}$, is $\mathbf{A} + \mathbf{A}^\top$ always symmetric? 1, 2 에 의해 참이다.
+
+len() 함수에 대하여.
+
+```python
+A = torch.arange(24, dtype = torch.float32).reshape(4, 3, 2)
+len(A) # 4
+len(A[0]) # 3
+len(A[0][0]) # 2
+```
+
+len() 함수가 결과가 꽤나 신기하다. 약간 C 나 C++ 의 다중 array 처럼 tensor 를 다루나보다.
+A.sum(axis = 0), A.sum(axis = 1), A.sum(axis = 2) 를 해보는 것도 재밌다. 정말 C++ 논리와 비슷하게 indexing 이 되는 듯 하다.
