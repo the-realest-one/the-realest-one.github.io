@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "D2L - Introduction"
+title:  "D2L - Preliminaries - 1"
 date:   2020-06-07T14:25:52-05:00
 author: the-realest-one
 categories: D2L
